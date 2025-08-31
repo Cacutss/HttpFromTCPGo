@@ -6,7 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"io"
-	"strings"
 )
 
 type chunkReader struct {
@@ -43,9 +42,9 @@ func TestRequestLineParse(t *testing.T) {
 	r, err := RequestFromReader(reader)
 	require.NoError(t, err)
 	require.NotNil(t, r)
-	assert.Equal(t, "GET", r.RequestLine.Method)
-	assert.Equal(t, "/", r.RequestLine.RequestTarget)
-	assert.Equal(t, "1.1", r.RequestLine.HttpVersion)
+	assert.Equal(t, "GET", string(r.RequestLine.Method))
+	assert.Equal(t, "/", string(r.RequestLine.RequestTarget))
+	assert.Equal(t, "1.1", string(r.RequestLine.HttpVersion))
 
 	// Test: Good GET Request line with path
 	reader = &chunkReader{
@@ -55,7 +54,7 @@ func TestRequestLineParse(t *testing.T) {
 	r, err = RequestFromReader(reader)
 	require.NoError(t, err)
 	require.NotNil(t, r)
-	assert.Equal(t, "GET", r.RequestLine.Method)
-	assert.Equal(t, "/coffee", r.RequestLine.RequestTarget)
-	assert.Equal(t, "1.1", r.RequestLine.HttpVersion)
+	assert.Equal(t, "GET", string(r.RequestLine.Method))
+	assert.Equal(t, "/coffee", string(r.RequestLine.RequestTarget))
+	assert.Equal(t, "1.1", string(r.RequestLine.HttpVersion))
 }
